@@ -1,0 +1,133 @@
+#include <iostream> //pre-processor directive
+#include <cmath> //for solving complicated math problems
+
+double IntAngle (double sA, double sB, double sC); //declaration for angles
+double TypTri (double sA, double sB, double sC);  //declaration for typer of triangle
+double Per (double sA, double sB, double sC);  //declaration for perimeter
+double Area (double sA, double sB, double sC, double tPerimeter);  //declaration for area
+double KinTri (double sA, double sB, double sC, double tHypo);  //declaration for kind of triangle 
+double ApoRad (double sA, double sB, double sC, double tArea, double tPerimeter);  //declaration for length of apothem and circumcenter
+	
+
+using namespace std;
+
+int main () 
+{
+	double sA, sB, sC, tHypo, tPerimeter, tArea;  //declaration for sides of triangle
+	
+	cout << "\nEnter the measurements of the three sides of the triangle: "; //instruct user to input measurement of sides 
+	cout << "\na: ";
+	cin >> sA; //input for side a
+	cout <<"b: ";
+	cin >> sB;//input for side b
+	cout <<"c: ";
+	cin >>sC; //input for side c
+	
+	//to identify the if right taiangle
+	tHypo = sA; 
+	if (tHypo < sB && sB > sC) 
+	{
+		tHypo = sB; 
+	}
+	else if (tHypo < sC && sC > sB) 
+	{
+		tHypo = sC;
+	}
+	
+	IntAngle(sA,sB,sC);
+	TypTri(sA,sB,sC);
+
+	tPerimeter=Per(sA,sB,sC);
+	tArea=Area(sA,sB,sC,tPerimeter);
+
+	KinTri(sA,sB,sC,tHypo);
+	ApoRad (sA,sB,sC,tArea, tPerimeter);
+	
+}
+
+double IntAngle (double sA, double sB, double sC) 
+{	
+	double val, PI = 3.14159265; //declaration of value of radians
+	double angleA, angleB, angleC; //declaration of interior angles
+	
+	val = 180.0 / PI; //for conversion of radians to degree
+	
+	cout << "\nINTERIOR ANGLES"; //interior angles will be printed 
+	angleA = (acosl (((pow(sB,2) + pow(sC,2)) - pow(sA,2)) / (2 * sB * sC))) * val; //formula for angle a
+	cout <<"\nA: " <<  angleA; //angle a will be printed
+	angleB = (acosl (((pow(sC,2) + pow(sA,2)) - pow(sB,2)) / (2 * sC * sA))) * val; //formula for angle b
+	cout <<"\nB: " << angleB; //angle b will be printed
+	angleC = (acosl (((pow(sA,2) + pow(sB,2)) - pow(sC,2)) / (2 * sA * sB))) * val; //formula for angle c
+	cout <<"\nC: " << angleC; //angle c will be printed
+	
+}
+
+double TypTri (double sA, double sB, double sC) 
+{	
+	cout <<"\n\nTYPE OF TRIANGLE (Equilateral, Isosceles, Scalene): "; //type of triangle will be printed
+
+	if (sA == sB && sA == sC && sB == sC) //condition for equilateral triangle
+	{
+		cout <<"Equilateral"; //
+	}
+	else if (sA == sB && sA != sC || sA == sC && sA != sB || sB == sC && sB != sA) //condition for isosceles triangle
+	{
+		cout <<"Isosceles"; 
+	}
+	else if (sA != sB != sC)  //condition for scalene triangle
+	{
+		cout <<"Scalene"; 
+	}
+	
+}
+
+double Per (double sA, double sB, double sC) 
+{
+	double Perimeter, s, Area; //declaration of perimeter, area, and s 
+	
+	Perimeter = sA + sB + sC; //formula for perimeter
+	cout <<"\n\nPERIMETER: "<< Perimeter; //prints value of perimeter
+	
+	return Perimeter;
+}
+
+double Area (double sA, double sB, double sC, double tPerimeter) 
+{
+	double s, Area; //declaration of s and area
+	s = tPerimeter / 2; //formula for s in heron's formula
+	
+	Area = sqrt(s * (s - sA) * (s - sB) * (s - sC)); //formula of area using heron's formula
+	cout << "\n\nAREA: " << Area; //prints area
+	
+	return Area;
+}
+
+double KinTri (double sA, double sB, double sC, double tHypo) 
+{	
+	double angleA, angleB, angleC; //declaration for interior angles 
+	
+	cout << "\n\nKIND OF TRIANGLE (Right, Obtuse, Acute): "; //prints kind of triangle 
+	
+	if ((pow(sA,2) + pow(sB,2) == pow(tHypo,2)) || (pow(sA,2) + pow(sC,2) == pow(tHypo,2)) || (pow(sB,2) + pow(sC,2) == pow(tHypo,2))) //condition for right triangle
+	{
+		cout <<"Right"; }
+	else if (angleA > 90.00 || angleB > 90.00  || angleC > 90.00) //condition for obtuse triangle 
+	{
+		cout <<"Obtuse"; }
+	else if (angleA < 90.00 || angleB < 90.00 || angleC < 90.00) //condition for acute triangle
+	{
+		cout <<"Acute"; }
+
+}
+
+double ApoRad (double sA, double sB, double sC, double tArea, double tPerimeter)
+{
+	double tApothem, tRadCir; //declaration of apothem and radius of cirumcenter 
+	
+	tApothem = (2 * tArea) / tPerimeter; //formula for apothem
+	cout <<"\n\nAPOTHEM: " << tApothem; //prints apothem
+	
+	tRadCir = (sA*sB*sC) / (sqrt ((sA+sB+sC) * (sB+sC-sA) * (sC+sA-sB) * (sA+sB-sC))); //formula for radius of circumcenter
+	cout <<"\nRADIUS OF CIRCUMCENTER: "<< tRadCir; //prints radius of circumcenter
+}
+
